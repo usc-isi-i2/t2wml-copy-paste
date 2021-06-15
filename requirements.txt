@@ -1,0 +1,6 @@
+jupyter
+mip==1.13.0
+numpy
+pandas
+pytest
+openpyxl

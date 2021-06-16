@@ -21,6 +21,9 @@ class Annotation:
 
     def var_name(self, index): return f"{self.id}_{index}"
 
+    def get_bounds(self):
+        return self.selection.x1, self.selection.x2, self.selection.y1, self.selection.y2
+
     def generate_target_annotations(self, x1, x2, y1, y2):
         annotation = {
             ID: self.id,

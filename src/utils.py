@@ -1,5 +1,7 @@
 from mip import INTEGER
 
+from src.selection import X1, X2, Y1, Y2
+
 
 def generate_constraints(v0, v1, index_1, index_2):
     if index_1 < index_2:
@@ -38,11 +40,14 @@ def generate_block_constraints(block_0, block_1, model):
     model.add_constr(generate_constraints(v0_y2, v1_y1, block_0.selection.y2, block_1.selection.y1))
     model.add_constr(generate_constraints(v0_y2, v1_y2, block_0.selection.y2, block_1.selection.y2))
 
+
 def initialize_block(annotation, model):
-    x1 = model.add_var(name=f"{annotation.id}_x1", lb=annotation.selection.x1, ub=annotation.selection.x1, var_type=INTEGER)
-    x2 = model.add_var(name=f"{annotation.id}_x2", lb=annotation.selection.x2, ub=annotation.selection.x2, var_type=INTEGER)
-    y1 = model.add_var(name=f"{annotation.id}_y1", lb=annotation.selection.y1, ub=annotation.selection.y1, var_type=INTEGER)
-    y2 = model.add_var(name=f"{annotation.id}_y2", lb=annotation.selection.y2, ub=annotation.selection.y2, var_type=INTEGER)
+    x_lb, x_ub, y_lb, y_ub = annotation.get_bounds()
+
+    x1 = model.add_var(name=annotation.var_name(X1), lb=x_lb, ub=x_ub, var_type=INTEGER)
+    x2 = model.add_var(name=annotation.var_name(X2), lb=x_lb, ub=x_ub, var_type=INTEGER)
+    y1 = model.add_var(name=annotation.var_name(Y1), lb=y_lb, ub=y_ub, var_type=INTEGER)
+    y2 = model.add_var(name=annotation.var_name(Y2), lb=y_lb, ub=y_ub, var_type=INTEGER)
 
     model.add_constr(x1 <= x2)
     model.add_constr(y1 <= y2)

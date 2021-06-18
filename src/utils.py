@@ -13,15 +13,15 @@ def generate_constraints(v0, v1, index_1, index_2):
 
 
 def generate_block_constraints(block_0, block_1, model):
-    v0_x1 = model.var_by_name(name=f"{block_0.id}_x1")
-    v0_x2 = model.var_by_name(name=f"{block_0.id}_x1")
-    v0_y1 = model.var_by_name(name=f"{block_0.id}_x1")
-    v0_y2 = model.var_by_name(name=f"{block_0.id}_x1")
+    v0_x1 = model.var_by_name(name=block_0.var_name(X1))
+    v0_x2 = model.var_by_name(name=block_0.var_name(X2))
+    v0_y1 = model.var_by_name(name=block_0.var_name(Y1))
+    v0_y2 = model.var_by_name(name=block_0.var_name(Y2))
 
-    v1_x1 = model.var_by_name(name=f"{block_1.id}_x1")
-    v1_x2 = model.var_by_name(name=f"{block_1.id}_x1")
-    v1_y1 = model.var_by_name(name=f"{block_1.id}_x1")
-    v1_y2 = model.var_by_name(name=f"{block_1.id}_x1")
+    v1_x1 = model.var_by_name(name=block_1.var_name(X1))
+    v1_x2 = model.var_by_name(name=block_1.var_name(X2))
+    v1_y1 = model.var_by_name(name=block_1.var_name(Y1))
+    v1_y2 = model.var_by_name(name=block_1.var_name(Y2))
 
     model.add_constr(generate_constraints(v0_x1, v1_x1, block_0.selection.x1, block_1.selection.x1))
     model.add_constr(generate_constraints(v0_x1, v1_x2, block_0.selection.x1, block_1.selection.x2))

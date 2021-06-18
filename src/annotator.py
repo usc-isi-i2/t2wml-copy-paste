@@ -1,6 +1,6 @@
 from itertools import combinations
 
-from mip import Model, MAXIMIZE, CBC, maximize
+from mip import Model, MAXIMIZE, CBC, maximize, OptimizationStatus
 
 from src.annotation import Annotation
 from src.selection import X1, X2, Y1, Y2
@@ -26,13 +26,14 @@ class Annotator:
 
         model.objective = maximize(sum(objective_expressions))
         status = model.optimize()
+        assert (status == OptimizationStatus.OPTIMAL or status == OptimizationStatus.FEASIBLE)
 
         target_annotations = []
         for annotation in self.annotations:
-            x1 = model.var_by_name(annotation.var_name(X1))
-            x2 = model.var_by_name(annotation.var_name(X2))
-            y1 = model.var_by_name(annotation.var_name(Y1))
-            y2 = model.var_by_name(annotation.var_name(Y2))
+            x1 = int(model.var_by_name(annotation.var_name(X1)).x)
+            x2 = int(model.var_by_name(annotation.var_name(X2)).x)
+            y1 = int(model.var_by_name(annotation.var_name(Y1)).x)
+            y2 = int(model.var_by_name(annotation.var_name(Y2)).x)
 
             target_annotations.append(annotation.generate_target_annotations(x1, x2, y1, y2))
 

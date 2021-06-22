@@ -4,17 +4,18 @@ from mip import Model, MAXIMIZE, CBC, maximize, OptimizationStatus
 
 from src.annotation import Annotation
 from src.selection import X1, X2, Y1, Y2
+from src.sheet import Sheet
 from src.utils import generate_block_constraints, initialize_block
 
 
 class Annotator:
     annotations = []
 
-    def __init__(self, source_df, source_annotations):
-        for annotation in source_annotations:
+    def __init__(self, source: Sheet):
+        for annotation in source.annotations:
             self.annotations.append(Annotation(annotation))
 
-    def generate_annotations(self, target_df):
+    def generate_annotations(self, target: Sheet):
         model = Model(sense=MAXIMIZE, solver_name=CBC)
 
         objective_expressions = []

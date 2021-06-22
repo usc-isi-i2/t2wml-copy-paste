@@ -14,8 +14,9 @@ def generate_constraints(v0, v1, index_1, index_2):
 
 def generate_block_constraints(block_0, block_1, model):
     v0_x1 = model.var_by_name(name=block_0.var_name(X1))
-    v0_x2 = model.var_by_name(name=block_0.var_name(X2))
     v0_y1 = model.var_by_name(name=block_0.var_name(Y1))
+
+    v0_x2 = model.var_by_name(name=block_0.var_name(X2))
     v0_y2 = model.var_by_name(name=block_0.var_name(Y2))
 
     v1_x1 = model.var_by_name(name=block_1.var_name(X1))

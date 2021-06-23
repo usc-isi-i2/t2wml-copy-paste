@@ -14,3 +14,6 @@ class Selection:
     @staticmethod
     def from_dict(selection_dict):
         return Selection(selection_dict[X1], selection_dict[X2], selection_dict[Y1], selection_dict[Y2])
+
+    def contains(self, x, y):
+        return (self.x1 <= x <= self.x2) and (self.y1 <= y <= self.y2)

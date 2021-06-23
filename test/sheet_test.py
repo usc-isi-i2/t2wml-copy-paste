@@ -2,6 +2,7 @@ import json
 
 import pandas as pd
 
+from src.selection import Selection
 from src.sheet import Sheet
 
 
@@ -13,7 +14,9 @@ def test_find_anchors():
         source_annotations = json.load(f)
 
     source = Sheet(source_df, source_annotations)
-    anchors = source.find_anchors(target_df)
+    target = Sheet(target_df)
+
+    anchors = source.find_anchors(target)
 
     expected_anchors = [{'content': 'Data Last Updated on:', 'x_source': 1, 'x_target': 0, 'y_source': 1, 'y_target': 0},
                         {'content': '03 Apr 2019 (This data may be subject to revisions)', 'x_source': 2, 'x_target': 1, 'y_source': 1, 'y_target': 0},
@@ -36,4 +39,11 @@ def test_find_anchors():
                         {'content': 'Yield ', 'x_source': 1, 'x_target': 0, 'y_source': 38, 'y_target': 37},
                         {'content': ' Tonnes/Ha', 'x_source': 2, 'x_target': 1, 'y_source': 38, 'y_target': 37}]
 
-    assert [anchor.__dict__ for anchor in anchors] == expected_anchors
+    assert len(anchors) == len(expected_anchors)
+    for i in range(0, len(expected_anchors)):
+        actual = anchors[i]
+        expected = expected_anchors[i]
+        assert actual.content == expected['content']
+        assert actual.x_target == expected['x_target'] + 1
+        assert actual.y_target == expected['y_target'] + 1
+        assert actual.selection.__dict__ == Selection(expected['x_source'], expected['x_source'], expected['y_source'], expected['y_source']).__dict__

@@ -13,6 +13,10 @@
 * To deactivate: `conda deactivate`
 * To remove: `conda remove --name sheet_annotator_venv --all -y`
 
+## To run tests
+    cd test 
+    pytest
+
 ## Starting Jupyter notebook
 
 `jupyter notebook --no-browser`

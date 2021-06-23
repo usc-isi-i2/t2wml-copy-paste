@@ -33,7 +33,7 @@ class Sheet:
                                 continue
 
                             anchors[value] = {
-                                ANCHOR: Anchor(value, candidate[X], candidate[Y], x, y),
+                                ANCHOR: Anchor(value, candidate[X], candidate[Y], x + 1, y + 1),
                                 VALID: True
                             }
 

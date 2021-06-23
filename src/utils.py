@@ -3,11 +3,13 @@ from mip import INTEGER
 from src.selection import X1, X2, Y1, Y2
 
 
-def generate_constraints(v0, v1, index_1, index_2):
-    if index_1 < index_2:
+def generate_constraints(v0, v1, index_0, index_1):
+    if index_0 < index_1:
         return v0 + 1 <= v1
+    elif index_0 > index_1:
+        return v1 + 1 <= v0
     else:
-        return v0 + 1 >= v1
+        return v1 == v0
 
 
 def generate_block_constraints(block_0, block_1, model):

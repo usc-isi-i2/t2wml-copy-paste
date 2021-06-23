@@ -17,7 +17,7 @@ def test_create_annotations_for_same_sheet():
     annotator = Annotator(source)
 
     target = Sheet(target_df)
-    annotations = annotator.generate_annotations(target_df)
+    annotations = annotator.generate_annotations(target)
 
     assert annotations == source_annotations
 

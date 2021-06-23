@@ -16,13 +16,14 @@ class Sheet:
 
     def __init__(self, dataframe: pd.DataFrame, annotations: dict = None):
         self.dataframe = dataframe
-        self.annotations = [Annotation(annotation) for annotation in annotations]
+        if annotations:
+            self.annotations = [Annotation(annotation) for annotation in annotations]
 
     def find_anchors(self, target):
         anchors = {}
         candidates = self._get_anchors_candidates()
 
-        for y, row in target.iterrows():
+        for y, row in target.dataframe.iterrows():
             for x, value in row.items():
                 if isinstance(value, str):
                     for candidate in candidates:

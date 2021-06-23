@@ -1,0 +1,7 @@
+jupyter
+mip==1.13.0
+numpy
+pandas
+pytest
+openpyxl
+rltk==2.0.0a17

@@ -1,5 +1,3 @@
-from math import inf
-
 from src.selection import Selection
 
 ID = 'id'
@@ -17,16 +15,12 @@ class Annotation:
         self.link = annotation_dict.get(LINK)
         self.links = annotation_dict.get(LINKS)
         self.role = annotation_dict.get(ROLE)
-        self.selection = Selection.from_dict(annotation_dict[SELECTION])
+        self.source_selection = Selection.from_dict(annotation_dict[SELECTION])
         self.type = annotation_dict.get(TYPE)
         self.property = annotation_dict.get(PROPERTY)
 
     def var_name(self, index):
         return f"{self.id}_{index}"
-
-    @staticmethod
-    def get_bounds():
-        return 1, inf, 1, inf
 
     def generate_target_annotations(self, x1, x2, y1, y2):
         annotation = {

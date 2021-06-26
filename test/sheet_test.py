@@ -5,16 +5,16 @@ import pandas as pd
 from src.selection import Selection
 from src.sheet import Sheet
 
+source_df = pd.read_excel('../resources/data.xlsx', sheet_name='india_wheat', engine='openpyxl', index_col=None, header=None)
+with open('../resources/annotations/india_wheat.json') as f:
+    source_annotations = json.load(f)
+
 
 def test_find_anchors():
-    source_df = pd.read_excel('../resources/data.xlsx', sheet_name='india_wheat', engine='openpyxl', index_col=None, header=None)
     target_df = pd.read_excel('../resources/data.xlsx', sheet_name='usa_wheat', engine='openpyxl', index_col=None, header=None)
 
-    with open('../resources/annotations/india_wheat.json') as f:
-        source_annotations = json.load(f)
-
-    source = Sheet(source_df, source_annotations)
-    target = Sheet(target_df)
+    source = Sheet('source', source_df, source_annotations)
+    target = Sheet('target', target_df)
 
     anchors = source.find_anchors(target)
 
@@ -44,6 +44,16 @@ def test_find_anchors():
         actual = anchors[i]
         expected = expected_anchors[i]
         assert actual.content == expected['content']
-        assert actual.x_target == expected['x_target'] + 1
-        assert actual.y_target == expected['y_target'] + 1
-        assert actual.selection.__dict__ == Selection(expected['x_source'], expected['x_source'], expected['y_source'], expected['y_source']).__dict__
+        assert actual.target_selection.__dict__ == Selection(expected['x_target'] + 1, expected['x_target'] + 1, expected['y_target'] + 1, expected['y_target'] + 1).__dict__
+        assert actual.source_selection.__dict__ == Selection(expected['x_source'], expected['x_source'], expected['y_source'], expected['y_source']).__dict__
+
+
+def test_find_anchors_when_no_anchors_are_present():
+    target_df = pd.read_excel('../resources/data.xlsx', sheet_name='shifted_india_wheat_wo_anchors', engine='openpyxl', index_col=None, header=None)
+
+    source = Sheet('source', source_df, source_annotations)
+    target = Sheet('target', target_df)
+
+    anchors = source.find_anchors(target)
+
+    assert not anchors

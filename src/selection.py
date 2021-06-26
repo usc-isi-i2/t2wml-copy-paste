@@ -15,5 +15,6 @@ class Selection:
     def from_dict(selection_dict):
         return Selection(selection_dict[X1], selection_dict[X2], selection_dict[Y1], selection_dict[Y2])
 
-    def contains(self, x, y):
-        return (self.x1 <= x <= self.x2) and (self.y1 <= y <= self.y2)
+    def contains(self, another_selection):
+        return (self.x1 <= another_selection.x1 <= another_selection.x2 <= self.x2) and (
+                self.y1 <= another_selection.y1 <= another_selection.y2 <= self.y2)

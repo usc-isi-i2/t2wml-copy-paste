@@ -13,10 +13,10 @@ def test_create_annotations_for_same_sheet():
     with open('../resources/annotations/india_wheat.json') as f:
         source_annotations = json.load(f)
 
-    source = Sheet(source_df, source_annotations)
+    source = Sheet('source', source_df, source_annotations)
     annotator = Annotator(source)
 
-    target = Sheet(target_df)
+    target = Sheet('target', target_df)
     annotations = annotator.generate_annotations(target)
 
     assert annotations == source_annotations
@@ -29,8 +29,28 @@ def test_create_annotations_for_shifted_sheet():
     with open('../resources/annotations/india_wheat.json') as f:
         source_annotations = json.load(f)
 
-    source = Sheet(source_df, source_annotations)
-    target = Sheet(target_df)
+    source = Sheet('source', source_df, source_annotations)
+    target = Sheet('target', target_df)
+
+    annotator = Annotator(source)
+
+    with open('../resources/annotations/shifted_india_wheat.json') as f:
+        target_annotations = json.load(f)
+
+    annotations = annotator.generate_annotations(target)
+    assert annotations == target_annotations
+
+
+def test_create_annotations_for_shifted_sheet_without_anchors():
+    source_df = pd.read_excel('../resources/data.xlsx', sheet_name='india_wheat', engine='openpyxl', index_col=None, header=None)
+    target_df = pd.read_excel('../resources/data.xlsx', sheet_name='shifted_india_wheat_wo_anchors', engine='openpyxl', index_col=None,
+                              header=None)
+
+    with open('../resources/annotations/india_wheat.json') as f:
+        source_annotations = json.load(f)
+
+    source = Sheet('source', source_df, source_annotations)
+    target = Sheet('target', target_df)
 
     annotator = Annotator(source)
 

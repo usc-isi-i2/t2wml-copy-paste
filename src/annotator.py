@@ -2,9 +2,9 @@ from itertools import combinations
 
 from mip import Model, MAXIMIZE, CBC, maximize, OptimizationStatus
 
-from src.selection import X1, X2, Y1, Y2
+from src.selection import X1, X2, Y1, Y2, Selection
 from src.sheet import Sheet
-from src.utils import generate_block_constraints, initialize_block
+from src.utils import generate_block_constraints, initialize_block, get_source_target_table_maps
 
 
 class Annotator:
@@ -16,16 +16,25 @@ class Annotator:
     def generate_annotations(self, target: Sheet):
         model = Model(sense=MAXIMIZE, solver_name=CBC)
 
+        source_tables = self.source.extract_tables()
+        target_tables = target.extract_tables()
+        source_target_table_maps = get_source_target_table_maps(source_tables, target_tables)
+
         objective_expressions = []
         for annotation in self.source.annotations:
-            objective_expressions.append(initialize_block(annotation, model))
+            bounded_selection = Selection(1, target.dataframe.shape[1], 1, target.dataframe.shape[0])
+            for source_target_table_map in source_target_table_maps:
+                if source_target_table_map['source_selection'].contains(annotation.source_selection):
+                    bounded_selection = source_target_table_map['target_selection']
+
+            objective_expressions.append(initialize_block(annotation, model, bounded_selection))
 
         for annotation_pair in list(combinations(self.source.annotations, 2)):
             generate_block_constraints(annotation_pair[0], annotation_pair[1], model)
 
         anchors = self.source.find_anchors(target)
         for anchor in anchors:
-            initialize_block(anchor, model)
+            initialize_block(anchor, model, anchor.target_selection)
             for annotation in self.source.annotations:
                 generate_block_constraints(anchor, annotation, model)
 

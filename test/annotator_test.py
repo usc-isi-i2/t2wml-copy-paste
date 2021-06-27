@@ -43,8 +43,7 @@ def test_create_annotations_for_shifted_sheet():
 
 def test_create_annotations_for_shifted_sheet_without_anchors():
     source_df = pd.read_excel('../resources/data.xlsx', sheet_name='india_wheat', engine='openpyxl', index_col=None, header=None)
-    target_df = pd.read_excel('../resources/data.xlsx', sheet_name='shifted_india_wheat_wo_anchors', engine='openpyxl', index_col=None,
-                              header=None)
+    target_df = pd.read_excel('../resources/data.xlsx', sheet_name='shifted_india_wheat_wo_anchors', engine='openpyxl', index_col=None, header=None)
 
     with open('../resources/annotations/india_wheat.json') as f:
         source_annotations = json.load(f)

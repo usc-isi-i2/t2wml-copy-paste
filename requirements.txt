@@ -4,4 +4,3 @@ numpy
 pandas
 pytest
 openpyxl
-rltk==2.0.0a17

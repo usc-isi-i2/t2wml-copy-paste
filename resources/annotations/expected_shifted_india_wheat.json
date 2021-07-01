@@ -10,7 +10,7 @@
         "role": "dependentVar",
         "selection": {
             "x1": 6,
-            "x2": 13,
+            "x2": 18,
             "y1": 13,
             "y2": 24
         },
@@ -36,7 +36,7 @@
         "role": "qualifier",
         "selection": {
             "x1": 6,
-            "x2": 13,
+            "x2": 18,
             "y1": 12,
             "y2": 12
         },

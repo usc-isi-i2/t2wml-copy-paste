@@ -6,7 +6,7 @@ from src.selection import Selection
 from src.sheet import Sheet
 
 source_df = pd.read_excel('../resources/data.xlsx', sheet_name='india_wheat', engine='openpyxl', index_col=None, header=None)
-with open('../resources/annotations/india_wheat.json') as f:
+with open('../resources/annotations/source_india_wheat.json') as f:
     source_annotations = json.load(f)
 
 

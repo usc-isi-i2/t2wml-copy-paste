@@ -24,6 +24,12 @@ test_cases = [
         'target_annotation': 'expected_e2_shifted.json'
     },
     {
+        'source_sheet': 'e3',
+        'target_sheet': 'e3_shifted',
+        'source_annotation': 'source_e3.json',
+        'target_annotation': 'expected_e3_shifted.json'
+    },
+    {
         'source_sheet': 'india_wheat',
         'target_sheet': 'india_wheat',
         'source_annotation': 'source_india_wheat.json',
@@ -72,10 +78,10 @@ def test_all_test_scenarios():
 
 def test_annotator():
     test_case = {
-        'source_sheet': 'india_wheat',
-        'target_sheet': 'shifted_india_wheat',
-        'source_annotation': 'source_india_wheat.json',
-        'target_annotation': 'expected_shifted_india_wheat.json'
+        'source_sheet': 'e3',
+        'target_sheet': 'e3_shifted',
+        'source_annotation': 'source_e3.json',
+        'target_annotation': 'expected_e3_shifted.json'
     }
 
     source_df = pd.read_excel('../resources/data.xlsx', sheet_name=test_case['source_sheet'], engine='openpyxl', index_col=None, header=None)

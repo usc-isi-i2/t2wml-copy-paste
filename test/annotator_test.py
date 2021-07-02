@@ -16,7 +16,7 @@ test_cases = [
     {'source_sheet': 'e3', 'target_sheet': 'e3_shifted', 'source_annotation': 'source_e3.json', 'target_annotation': 'expected_e3_shifted.json'},
     # needs anchor for passing test
     {'source_sheet': 'e4', 'target_sheet': 'e4_shifted', 'source_annotation': 'source_e4.json', 'target_annotation': 'expected_e4_shifted.json'},
-    {'source_sheet': 'e4', 'target_sheet': 'e4_misaligned', 'source_annotation': 'source_e4.json', 'target_annotation': 'expected_e4_misaligned.json'}
+    {'source_sheet': 'e4', 'target_sheet': 'e4_misaligned', 'source_annotation': 'source_e4.json', 'target_annotation': 'expected_e4_misaligned.json'},
     {'source_sheet': 'india_wheat', 'target_sheet': 'india_wheat', 'source_annotation': 'source_india_wheat.json', 'target_annotation': 'expected_india_wheat.json'},
     {'source_sheet': 'india_wheat', 'target_sheet': 'shifted_india_wheat', 'source_annotation': 'source_india_wheat.json', 'target_annotation': 'expected_shifted_india_wheat.json'},
     # needs at least one anchor for passing test

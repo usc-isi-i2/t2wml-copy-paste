@@ -49,7 +49,7 @@ def test_find_anchors():
 
 
 def test_find_anchors_when_no_anchors_are_present():
-    target_df = pd.read_excel('../resources/data.xlsx', sheet_name='shifted_india_wheat_wo_anchors', engine='openpyxl', index_col=None, header=None)
+    target_df = pd.read_excel('../resources/data.xlsx', sheet_name='e1', engine='openpyxl', index_col=None, header=None)
 
     source = Sheet('source', source_df, source_annotations)
     target = Sheet('target', target_df)

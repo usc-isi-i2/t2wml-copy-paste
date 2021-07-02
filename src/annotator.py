@@ -30,13 +30,13 @@ class Annotator:
             objective_expressions.append(initialize_block(annotation, model, bounded_selection))
 
         for annotation_pair in list(combinations(self.source.annotations, 2)):
-            generate_block_constraints(annotation_pair[0], annotation_pair[1], model)
+            generate_block_constraints(annotation_pair[0], annotation_pair[1], model, False)
 
         anchors = self.source.find_anchors(target)
         for anchor in anchors:
             initialize_block(anchor, model, anchor.target_selection)
             for annotation in self.source.annotations:
-                generate_block_constraints(anchor, annotation, model)
+                generate_block_constraints(anchor, annotation, model, True)
 
         model.objective = maximize(sum(objective_expressions))
         status = model.optimize()

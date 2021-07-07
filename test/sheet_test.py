@@ -14,9 +14,8 @@ def test_find_anchors():
     target_df = pd.read_excel('../resources/data.xlsx', sheet_name='usa_wheat', engine='openpyxl', index_col=None, header=None)
 
     source = Sheet('source', source_df, source_annotations)
-    target = Sheet('target', target_df)
 
-    anchors = source.find_anchors(target)
+    anchors = source.find_anchors(target_df)
 
     expected_anchors = [{'content': 'Data Last Updated on:', 'x_source': 1, 'x_target': 0, 'y_source': 1, 'y_target': 0},
                         {'content': '03 Apr 2019 (This data may be subject to revisions)', 'x_source': 2, 'x_target': 1, 'y_source': 1, 'y_target': 0},
@@ -52,8 +51,7 @@ def test_find_anchors_when_no_anchors_are_present():
     target_df = pd.read_excel('../resources/data.xlsx', sheet_name='e1', engine='openpyxl', index_col=None, header=None)
 
     source = Sheet('source', source_df, source_annotations)
-    target = Sheet('target', target_df)
 
-    anchors = source.find_anchors(target)
+    anchors = source.find_anchors(target_df)
 
     assert not anchors

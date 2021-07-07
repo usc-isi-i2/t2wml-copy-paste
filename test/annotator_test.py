@@ -3,9 +3,6 @@ import json
 import pandas as pd
 from mip import OptimizationStatus
 
-# To debug infeasible model
-# from src import conflict
-# from src.conflict import ConflictFinder
 
 from src.sheet import Sheet
 from src.annotator import Annotator
@@ -17,9 +14,10 @@ test_cases = [
     # needs anchor for passing test
     {'source_sheet': 'e4', 'target_sheet': 'e4_shifted', 'source_annotation': 'source_e4.json', 'target_annotation': 'expected_e4_shifted.json'},
     {'source_sheet': 'e4', 'target_sheet': 'e4_misaligned', 'source_annotation': 'source_e4.json', 'target_annotation': 'expected_e4_misaligned.json'},
+    {'source_sheet': 'e4', 'target_sheet': 'e4_empty_row', 'source_annotation': 'source_e4.json', 'target_annotation': 'source_e4.json'},
     {'source_sheet': 'india_wheat', 'target_sheet': 'india_wheat', 'source_annotation': 'source_india_wheat.json', 'target_annotation': 'expected_india_wheat.json'},
     {'source_sheet': 'india_wheat', 'target_sheet': 'shifted_india_wheat', 'source_annotation': 'source_india_wheat.json', 'target_annotation': 'expected_shifted_india_wheat.json'},
-    # needs at least one anchor for passing test
+    # needs minimum number of anchor for passing test
     {'source_sheet': 'india_wheat', 'target_sheet': 'shifted_india_wheat_wo_anchors', 'source_annotation': 'source_india_wheat.json','target_annotation': 'expected_shifted_india_wheat_wo_anchors.json'}
 ]
 
@@ -47,11 +45,12 @@ def test_all_test_scenarios():
         except AssertionError as e:
             failed_cases.append((test_case, e))
 
-    assert len(failed_cases) == 0
+    error_message = f"Unmatched annotations: {[failed_case['target_annotation'] for failed_case, e in failed_cases]}"
+    assert len(failed_cases) == 0, error_message
 
 
 def test_annotator():
-    test_case = {'source_sheet': 'e4', 'target_sheet': 'e4_misaligned', 'source_annotation': 'source_e4.json', 'target_annotation': 'expected_e4_misaligned.json'}
+    test_case = {'source_sheet': 'e4', 'target_sheet': 'e4_empty_row', 'source_annotation': 'source_e4.json', 'target_annotation': 'source_e4.json'}
 
     source_df = pd.read_excel('../resources/data.xlsx', sheet_name=test_case['source_sheet'], engine='openpyxl', index_col=None, header=None)
     target_df = pd.read_excel('../resources/data.xlsx', sheet_name=test_case['target_sheet'], engine='openpyxl', index_col=None, header=None)
@@ -70,7 +69,3 @@ def test_annotator():
 
     assert status == OptimizationStatus.OPTIMAL
     assert annotations == expected_target_annotations
-
-    # To debug infeasible model
-    # cf = ConflictFinder(model)
-    # iis = cf.find_iis(method=conflict.IISFinderAlgorithm.DELETION_FILTER)

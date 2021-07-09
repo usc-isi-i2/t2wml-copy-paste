@@ -1,7 +1,6 @@
 from mip import INTEGER
 
 from src.selection import X1, X2, Y1, Y2, Selection
-from src.tf_idf import TF_IDF
 
 
 def generate_constraints(v0, v1, index_0, index_1):
@@ -59,36 +58,3 @@ def initialize_block(block, model, bound_selection: Selection):
         model.add_constr(y1 <= y2)
 
     return x2 - x1 + y2 - y1
-
-
-def get_tf_idf_classifier(source_tables, target_tables):
-    tfidf = TF_IDF()
-    for table_name, table in source_tables.items():
-        tfidf.add_document(table_name, table.get_strings())
-    for table_name, table in target_tables.items():
-        tfidf.add_document(table_name, table.get_strings())
-    tfidf.pre_compute()
-
-    return tfidf
-
-
-def get_source_target_table_maps(source_tables, target_tables):
-    source_target_table_maps = []
-    tf_idf = get_tf_idf_classifier(source_tables, target_tables)
-    for s in range(0, len(source_tables)):
-        source = f'source_{s}'
-        best_similarity = 0
-        best_target_selection = None
-        for t in range(0, len(target_tables)):
-            target = f'target_{t}'
-            similarity = tf_idf.similarity(source, target)
-            if similarity > best_similarity:
-                best_similarity = similarity
-                best_target_selection = target_tables[target].selection
-
-        source_target_table_maps.append({
-            'source_selection': source_tables[source].selection,
-            'target_selection': best_target_selection
-        })
-
-    return source_target_table_maps
